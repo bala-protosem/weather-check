@@ -1,0 +1,40 @@
+# importing requests and json
+import requests, json
+# base URL
+BASE_URL = "https://api.openweathermap.org/data/2.5/weather?"
+# City Name CITY = "Hyderabad"
+API_KEY = '57560f7a7622c33fd1fe41130cc0cf23'
+# upadting the URL
+CITY=input("enter the city - ")
+URL = BASE_URL + "q=" + CITY + "&appid=" + API_KEY
+# HTTP request
+response = requests.get(URL)
+# checking the status code of the request
+if response.status_code == 200:
+   # getting data in the json format
+   data = response.json()
+   # getting the main dict block
+   main = data['main']
+   # getting temperature
+   temperature = main['temp']
+   # getting the humidity
+   humidity = main['humidity']
+   # getting the pressure
+   pressure = main['pressure']
+   # weather report
+   report = data['weather']
+   print(f"{CITY:-^30}")
+   print(f"Temperature: {temperature}")
+   print(f"Humidity: {humidity}")
+   print(f"Pressure: {pressure}")
+   print(f"Weather Report: {report[0]['description']}")
+else:
+   # showing the error message
+   print("Error in the HTTP request")
+f= open("weatherreport.txt","a")
+f.write(f"{CITY:-^30}")
+f.write(f"Temperature: {temperature}")
+f.write(f"Humidity: {humidity}")
+f.write(f"Pressure: {pressure}")
+f.write(f"Weather Report: {report[0]['description']}")
+f.close()
